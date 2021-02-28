@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Class MailService
- * @package App\Service
+ * @package Bermuda\Mail
  */
 final class MailService implements MailServiceInterface
 {

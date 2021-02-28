@@ -166,8 +166,13 @@ final class MailService implements MailServiceInterface
         {
             if (!$self->mailer->send() && $self->mailer->isError())
             {
-                throw new \RuntimeException($self->mailer->isError());
+                throw new \RuntimeException($self->mailer->ErrorInfo);
             }
+        }
+        
+        catch (\RuntimeException $e)
+        {
+            throw $e;
         }
 
         catch (\Throwable $e)

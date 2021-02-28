@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail;
+namespace Bermuda\Mail;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use Psr\Container\ContainerInterface;

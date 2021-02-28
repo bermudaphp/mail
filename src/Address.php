@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Mail;
+namespace Bermuda\Mail;
 
 use Bermuda\String\Stringable;
 
 /**
  * Class Address
- * @package App\Mail
+ * @package Bermuda\Mail
  */
 final class Address implements Stringable
 {

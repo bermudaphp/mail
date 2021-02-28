@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Mail;
+namespace Bermuda\Mail;
 
 use Bermuda\String\Str;
 use Bermuda\String\Stringable;
 
 /**
  * Class Body
- * @package App\Mail
+ * @package Bermuda\Mail
  */
 final class Body implements Stringable
 {

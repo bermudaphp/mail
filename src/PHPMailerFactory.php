@@ -8,7 +8,7 @@ use function Bermuda\config;
 
 /**
  * Class PHPMailerFactory
- * @package App\Mail
+ * @package Bermuda\Mail
  */
 class PHPMailerFactory
 {

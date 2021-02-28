@@ -7,7 +7,7 @@ use Psr\Container\ContainerInterface;
 
 /**
  * Class MailServiceFactory
- * @package App\Mail
+ * @package Bermuda\Mail
  */
 class MailServiceFactory
 {

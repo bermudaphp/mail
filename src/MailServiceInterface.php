@@ -4,7 +4,7 @@ namespace Bermuda\Mail;
 
 /**
  * Interface MailServiceInterface
- * @package App\Service
+ * @package Bermuda\Mail
  */
 interface MailServiceInterface
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Mail;
+namespace Bermuda\Mail;
 
 /**
  * Class Attachment
- * @package App\Mail
+ * @package Bermuda\Mail
  */
 final class Attachment
 {

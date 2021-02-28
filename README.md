@@ -1,1 +1,4 @@
-# mail
+# Usage
+```bash
+composer require bermudaphp/mail
+````

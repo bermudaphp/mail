@@ -26,7 +26,7 @@ final class MailService implements MailServiceInterface
      * @param PHPMailer $mailer
      * @return self
      */
-    public function setMailer(PHPMailer $mailer): self
+    public function withMailer(PHPMailer $mailer): self
     {
         $copy = clone $this;
         $copy->mailer = $mailer;
@@ -37,7 +37,7 @@ final class MailService implements MailServiceInterface
     /**
      * @inheritDoc
      */
-    public function setBody(Body $body): MailServiceInterface
+    public function withBody(Body $body): MailServiceInterface
     {
         $copy = clone $this;
 
@@ -62,7 +62,7 @@ final class MailService implements MailServiceInterface
      * @return self
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public function addAddress(Address $address): self
+    public function withAddress(Address $address): self
     {
         $copy = clone $this;
         $copy->mailer->addAddress((string) $address, $address->getName());
@@ -73,7 +73,7 @@ final class MailService implements MailServiceInterface
     /**
      * @inheritDoc
      */
-    public function addAddresses($addresses): MailServiceInterface
+    public function withAddresses($addresses): MailServiceInterface
     {
         $addresses = is_array($addresses) ?: [$addresses];
 
@@ -84,7 +84,7 @@ final class MailService implements MailServiceInterface
 
         foreach ($addresses as $address)
         {
-            $copy = $this->addAddress($address);
+            $copy = $this->withAddress($address);
         }
 
         return $copy;
@@ -93,7 +93,7 @@ final class MailService implements MailServiceInterface
     /**
      * @inheritDoc
      */
-    public function addAttachments($attachments): MailServiceInterface
+    public function withAttachments($attachments): MailServiceInterface
     {
         $attachments = (array) $attachments;
 
@@ -104,7 +104,7 @@ final class MailService implements MailServiceInterface
 
         foreach ($attachments as $attachment)
         {
-            $copy = $this->addAttachment($attachment);
+            $copy = $this->withAttachment($attachment);
         }
 
         return $copy;
@@ -115,7 +115,7 @@ final class MailService implements MailServiceInterface
      * @return self
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public function addAttachment(Attachment $attachment): self
+    public function withAttachment(Attachment $attachment): self
     {
         $copy = clone $this;
         $copy->mailer->addAttachment(
@@ -132,7 +132,7 @@ final class MailService implements MailServiceInterface
     /**
      * @inheritDoc
      */
-    public function setSubject(string $subject): MailServiceInterface
+    public function withSubject(string $subject): MailServiceInterface
     {
         $copy = clone $this;
         $copy->mailer->Subject = $subject;
@@ -149,17 +149,17 @@ final class MailService implements MailServiceInterface
 
         if ($subject != null)
         {
-            $self = $this->setSubject($subject);
+            $self = $this->withSubject($subject);
         }
 
         if ($body != null)
         {
-            $self = $this->setBody($body);
+            $self = $this->withBody($body);
         }
 
         if ($addresses != null)
         {
-            $self = $this->addAddresses($addresses);
+            $self = $this->withAddresses($addresses);
         }
 
         try

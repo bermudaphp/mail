@@ -12,25 +12,25 @@ interface MailServiceInterface
      * @param Body $body
      * @return MailServiceInterface
      */
-    public function setBody(Body $body): MailServiceInterface ;
+    public function withBody(Body $body): MailServiceInterface ;
 
     /**
      * @param Address|Address[] $addresses
      * @return MailServiceInterface
      */
-    public function addAddresses($addresses): MailServiceInterface ;
+    public function withAddresses($addresses): MailServiceInterface ;
 
     /**
      * @param Attachment|Attachment[] $attachments
      * @return MailServiceInterface
      */
-    public function addAttachments($attachments): MailServiceInterface ;
+    public function withAttachments($attachments): MailServiceInterface ;
 
     /**
      * @param string $subject
      * @return MailServiceInterface
      */
-    public function setSubject(string $subject): MailServiceInterface ;
+    public function withSubject(string $subject): MailServiceInterface ;
 
     /**
      * @param string|null $subject

@@ -75,7 +75,7 @@ final class MailService implements MailServiceInterface
      */
     public function withAddresses($addresses): MailServiceInterface
     {
-        $addresses = is_array($addresses) ?: [$addresses];
+        is_array($addresses) ?: $addresses = [$addresses];
 
         if ($addresses == [])
         {
@@ -95,7 +95,7 @@ final class MailService implements MailServiceInterface
      */
     public function withAttachments($attachments): MailServiceInterface
     {
-        $attachments = (array) $attachments;
+        is_array($attachments) ?: $attachments = [$attachments];
 
         if ($attachments == [])
         {

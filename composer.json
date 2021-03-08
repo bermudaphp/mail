@@ -1,0 +1,14 @@
+{
+    "name": "bermudaphp/mail",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Bermuda\\Mail\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">= 7.4",
+        "phpmailer/phpmailer": "^6.2",
+        "bermudaphp/config": "^1.0"
+    }
+}

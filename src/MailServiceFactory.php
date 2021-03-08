@@ -13,11 +13,9 @@ class MailServiceFactory
 {
     public function __invoke(ContainerInterface $container): MailService
     {
-        if ($container->has(PHPMailer::class))
-        {
-            $mailer = $container->get(PHPMailer::class);
-        }
-
-        return new MailService($mailer ?? new PHPMailer());
+        return new MailService(
+            $container->has(PHPMailer::class) ?
+            $container->get(PHPMailer::class) : new PHPMailer()
+        );
     }
 }

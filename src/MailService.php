@@ -2,12 +2,12 @@
 
 namespace Bermuda\Mail;
 
+use InvalidArgumentException;
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
+use RuntimeException;
+use Throwable;
 
-/**
- * Class MailService
- * @package Bermuda\Mail
- */
 final class MailService implements MailServiceInterface
 {
     private PHPMailer $mailer;
@@ -37,73 +37,15 @@ final class MailService implements MailServiceInterface
     /**
      * @inheritDoc
      */
-    public function withBody(Body $body): MailServiceInterface
-    {
-        $copy = clone $this;
-
-        if ($body->isHTML())
-        {
-            $copy->mailer->isHTML(true);
-            $copy->mailer->AltBody = strip_tags((string) $body);
-            $copy->mailer->Body = (string) $body;
-        }
-
-        else
-        {
-            $copy->mailer->Body = (string) $body;
-            $copy->mailer->AltBody = (string) $body;
-        }
-
-        return $copy;
-    }
-
-    /**
-     * @param Address $address
-     * @return self
-     * @throws \PHPMailer\PHPMailer\Exception
-     */
-    public function withAddress(Address $address): self
-    {
-        $copy = clone $this;
-        $copy->mailer->addAddress((string) $address, $address->getName());
-
-        return $copy;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withAddresses($addresses): MailServiceInterface
-    {
-        is_array($addresses) ?: $addresses = [$addresses];
-
-        if ($addresses == [])
-        {
-            throw new \InvalidArgumentException('Empty addresses');
-        }
-
-        foreach ($addresses as $address)
-        {
-            $copy = $this->withAddress($address);
-        }
-
-        return $copy;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withAttachments($attachments): MailServiceInterface
+    public function withAttachments(array|Attachment $attachments): MailServiceInterface
     {
         is_array($attachments) ?: $attachments = [$attachments];
 
-        if ($attachments == [])
-        {
-            throw new \InvalidArgumentException('Empty attachments');
+        if ($attachments == []) {
+            throw new InvalidArgumentException('Argument [attachments] cannot be empty');
         }
 
-        foreach ($attachments as $attachment)
-        {
+        foreach ($attachments as $attachment) {
             $copy = $this->withAttachment($attachment);
         }
 
@@ -113,7 +55,7 @@ final class MailService implements MailServiceInterface
     /**
      * @param Attachment $attachment
      * @return self
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function withAttachment(Attachment $attachment): self
     {
@@ -132,6 +74,36 @@ final class MailService implements MailServiceInterface
     /**
      * @inheritDoc
      */
+    public function send(?string $subject = null, ?Body $body = null, Address|array $addresses = null): void
+    {
+        $self = $this;
+
+        if ($subject != null) {
+            $self = $this->withSubject($subject);
+        }
+
+        if ($body != null) {
+            $self = $this->withBody($body);
+        }
+
+        if ($addresses != null) {
+            $self = $this->withAddresses($addresses);
+        }
+
+        try {
+            if (!$self->mailer->send() && $self->mailer->isError()) {
+                throw new RuntimeException($self->mailer->ErrorInfo);
+            }
+        } catch (RuntimeException $e) {
+            throw $e;
+        } catch (Throwable $e) {
+            throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function withSubject(string $subject): MailServiceInterface
     {
         $copy = clone $this;
@@ -143,41 +115,50 @@ final class MailService implements MailServiceInterface
     /**
      * @inheritDoc
      */
-    public function send(?string $subject = null, ?Body $body = null, $addresses = null): void
+    public function withBody(Body $body): MailServiceInterface
     {
-        $self = $this;
+        $copy = clone $this;
 
-        if ($subject != null)
-        {
-            $self = $this->withSubject($subject);
-        }
-
-        if ($body != null)
-        {
-            $self = $this->withBody($body);
-        }
-
-        if ($addresses != null)
-        {
-            $self = $this->withAddresses($addresses);
+        if ($body->isHTML()) {
+            $copy->mailer->isHTML(true);
+            $copy->mailer->AltBody = strip_tags((string)$body);
+            $copy->mailer->Body = (string)$body;
+        } else {
+            $copy->mailer->Body = (string)$body;
+            $copy->mailer->AltBody = (string)$body;
         }
 
-        try
-        {
-            if (!$self->mailer->send() && $self->mailer->isError())
-            {
-                throw new \RuntimeException($self->mailer->ErrorInfo);
-            }
-        }
-        
-        catch (\RuntimeException $e)
-        {
-            throw $e;
+        return $copy;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withAddresses(Addresses|array $addresses): MailServiceInterface
+    {
+        is_array($addresses) ?: $addresses = [$addresses];
+
+        if ($addresses == []) {
+            throw new InvalidArgumentException('Argument [addresses] cannot be empty');
         }
 
-        catch (\Throwable $e)
-        {
-            throw new \RuntimeException($e->getMessage(), $e->getCode(), $e);
+        foreach ($addresses as $address) {
+            $copy = $this->withAddress($address);
         }
+
+        return $copy;
+    }
+
+    /**
+     * @param Address $address
+     * @return self
+     * @throws Exception
+     */
+    public function withAddress(Address $address): self
+    {
+        $copy = clone $this;
+        $copy->mailer->addAddress((string)$address, $address->getName());
+
+        return $copy;
     }
 }

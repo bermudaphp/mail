@@ -2,11 +2,12 @@
 
 namespace Bermuda\Mail;
 
+use Throwable;
+use RuntimeException;
 use InvalidArgumentException;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
-use RuntimeException;
-use Throwable;
+use Bermuda\Detector\MimeTypes\Text;
 
 final class MailService implements MailServiceInterface
 {
@@ -119,7 +120,7 @@ final class MailService implements MailServiceInterface
     {
         $copy = clone $this;
 
-        if ($body->isHTML()) {
+        if ($body->mimeType === Text::html) {
             $copy->mailer->isHTML(true);
             $copy->mailer->AltBody = strip_tags((string)$body);
             $copy->mailer->Body = (string)$body;

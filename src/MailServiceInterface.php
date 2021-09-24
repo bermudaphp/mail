@@ -2,10 +2,6 @@
 
 namespace Bermuda\Mail;
 
-/**
- * Interface MailServiceInterface
- * @package Bermuda\Mail
- */
 interface MailServiceInterface
 {
     /**
@@ -18,13 +14,13 @@ interface MailServiceInterface
      * @param Address|Address[] $addresses
      * @return MailServiceInterface
      */
-    public function withAddresses($addresses): MailServiceInterface ;
+    public function withAddresses(array|Address $addresses): MailServiceInterface ;
 
     /**
      * @param Attachment|Attachment[] $attachments
      * @return MailServiceInterface
      */
-    public function withAttachments($attachments): MailServiceInterface ;
+    public function withAttachments(array|Attachment $attachments): MailServiceInterface ;
 
     /**
      * @param string $subject
@@ -38,5 +34,5 @@ interface MailServiceInterface
      * @param null|Address|Address[] $addresses
      * @throws \RuntimeException
      */
-    public function send(?string $subject = null, ?Body $body = null, $addresses = null): void ;
+    public function send(?string $subject = null, ?Body $body = null, array|Address $addresses = null): void ;
 }

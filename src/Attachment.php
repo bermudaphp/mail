@@ -2,25 +2,23 @@
 
 namespace Bermuda\Mail;
 
-/**
- * Class Attachment
- * @package Bermuda\Mail
- */
 final class Attachment
 {
-    private string $path, $filename, $type, $encoding, $disposition;
-
     public const ENCODING_7BIT = '7bit';
     public const ENCODING_8BIT = '8bit';
     public const ENCODING_BASE64 = 'base64';
     public const ENCODING_BINARY = 'binary';
     public const ENCODING_QUOTED_PRINTABLE = 'quoted-printable';
+    public const DISPOSITION_ATTACHMENT = 'attachment';
+    private string $path, $filename, $type, $encoding, $disposition;
 
     public function __construct(string $path, string $filename = '',
-        string $type = '', string $encoding = self::ENCODING_BASE64, string $disposition = 'attachment')
+                                string $type = '', string $encoding = self::ENCODING_BASE64, string $disposition = self::DISPOSITION_ATTACHMENT)
     {
-        $this->path = $path; $this->filename = $filename;
-        $this->type = $type; $this->encoding = $encoding;
+        $this->path = $path;
+        $this->filename = $filename;
+        $this->type = $type;
+        $this->encoding = $encoding;
         $this->disposition = $disposition;
     }
 

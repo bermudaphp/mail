@@ -74,7 +74,7 @@ final class MailService implements MailServiceInterface
     /**
      * @inheritDoc
      */
-    public function send(?string $subject = null, ?Body $body = null, Address|array $addresses = null): void
+    public function send(?string $subject = null, ?Body $body = null, array|Address $addresses = null): void
     {
         $self = $this;
 
@@ -134,7 +134,7 @@ final class MailService implements MailServiceInterface
     /**
      * @inheritDoc
      */
-    public function withAddresses(Addresses|array $addresses): MailServiceInterface
+    public function withAddresses(array|Address $addresses): MailServiceInterface
     {
         is_array($addresses) ?: $addresses = [$addresses];
 

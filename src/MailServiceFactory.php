@@ -5,11 +5,7 @@ namespace Bermuda\Mail;
 use PHPMailer\PHPMailer\PHPMailer;
 use Psr\Container\ContainerInterface;
 
-/**
- * Class MailServiceFactory
- * @package Bermuda\Mail
- */
-class MailServiceFactory
+final class MailServiceFactory
 {
     public function __invoke(ContainerInterface $container): MailService
     {

@@ -2,21 +2,16 @@
 
 namespace Bermuda\Mail;
 
-use Bermuda\String\Str;
-use Bermuda\String\Stringable;
+use Bermuda\Detector\FinfoDetector;
+use Bermuda\Detector\MimeTypes\Text;
 
-/**
- * Class Body
- * @package Bermuda\Mail
- */
 final class Body implements Stringable
 {
     private string $content;
-    private ?bool $isHTML = null;
-
-    public function __construct(string $content, bool $isHTML = null)
+   
+    public function __construct(string $content)
     {
-        $this->content = $content; $this->isHTML = $isHTML;
+        $this->content = $content
     }
 
     public function __toString(): string
@@ -27,13 +22,15 @@ final class Body implements Stringable
     /**
      * @return bool
      */
-    public function isHTML(): bool
+    public function isHtml(): bool
     {
-        if ($this->isHTML == null)
-        {
-            $this->isHTML = Str::isHTML($this->content);
+        static $result = null;
+        
+        if ($result === null) {
+            return $result = (new FinfoDetector)
+                ->detectMimeType($this->content) === Text::html;
         }
-
-        return $this->isHTML;
+        
+        return $result;
     }
 }

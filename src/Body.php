@@ -6,7 +6,7 @@ use Bermuda\Detector\FinfoDetector;
 use Bermuda\Detector\MimeTypes\Text;
 
 /**
- * @property-read  string $content
+ * @property-read string $content
  * @property-read string $mimeType
  */
 final class Body implements Stringable

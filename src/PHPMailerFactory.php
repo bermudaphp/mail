@@ -14,14 +14,11 @@ class PHPMailerFactory
 {
     public function __invoke(ContainerInterface $container): PHPMailer
     {
-        $mailer = new PHPMailer();
-
+        $mailer = new PHPMailer;
         $config = config('mailer');
-
         $mailer->setFrom($config['from']['address'], $config['from']['name'] ?? '');
 
-        if (isset($config['smtp']))
-        {
+        if (isset($config['smtp'])) {
             $mailer->isSMTP();
             $mailer->SMTPAuth = true;
             $mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;

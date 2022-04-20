@@ -11,11 +11,7 @@ use Bermuda\Detector\MimeTypes\Text;
 
 final class MailService implements MailServiceInterface
 {
-    private PHPMailer $mailer;
-
-    public function __construct(PHPMailer $mailer = null)
-    {
-        $this->mailer = $mailer ?? new PHPMailer();
+    public function __construct(private PHPMailer $mailer = new PHPMailer) {
     }
 
     public function __clone()
@@ -41,15 +37,11 @@ final class MailService implements MailServiceInterface
     public function withAttachments(array|Attachment $attachments): MailServiceInterface
     {
         is_array($attachments) ?: $attachments = [$attachments];
-
         if ($attachments == []) {
             throw new InvalidArgumentException('Argument [attachments] cannot be empty');
         }
 
-        foreach ($attachments as $attachment) {
-            $copy = $this->withAttachment($attachment);
-        }
-
+        foreach ($attachments as $attachment) $copy = $this->withAttachment($attachment);
         return $copy;
     }
 

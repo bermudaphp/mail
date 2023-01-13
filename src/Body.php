@@ -9,7 +9,7 @@ use Bermuda\Detector\MimeTypes\Text;
  * @property-read string $content
  * @property-read string $mimeType
  */
-final class Body implements Stringable
+final class Body implements \Stringable
 {
     private string $content;
     private ?string $mimeType = null;
